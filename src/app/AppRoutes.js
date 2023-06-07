@@ -29,12 +29,28 @@ const PrivateRouter = lazy(() => import("./user-pages/PrivateRouter"));
 
 class AppRoutes extends Component {
   render() {
+    const isAuthenticated = localStorage.getItem("token");
+    const storedToken = localStorage.getItem("token");
+    const storedExpiryTime = localStorage.getItem("expiryTime");
+    const currentTime = new Date().getTime();
+    const isTokenExpired = storedExpiryTime && currentTime > storedExpiryTime;
+    console.log(isTokenExpired)
+    if (isTokenExpired) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('expiryTime');
+    }
+    // const isAuthenticated = true;
+    console.log(isAuthenticated);
+
     return (
       <Suspense fallback={<Spinner />}>
         <Switch>
-        
-            <Route exact path="/dashboard" component={Dashboard} />
-         
+          <PrivateRouter
+            path="/dashboard"
+            component={Dashboard}
+            isAuthenticated={isAuthenticated}
+          />
+          {/* <Route exact path="/dashboard" component={Dashboard} /> */}
 
           <Route path="/basic-ui/buttons" component={Buttons} />
           <Route path="/basic-ui/dropdowns" component={Dropdowns} />
@@ -54,13 +70,14 @@ class AppRoutes extends Component {
           <Route path="/user-pages/login-1" component={Login} />
           <Route path="/user-pages/register-1" component={Register1} />
           <Route path="/user-pages/lockscreen" component={Lockscreen} />
+          <Route path="/user-pages" />
 
           <Route path="/error-pages/error-404" component={Error404} />
           <Route path="/error-pages/error-500" component={Error500} />
 
           <Route path="/general-pages/blank-page" component={BlankPage} />
 
-          <Route path="/" component={PrivateRouter}><Redirect to="/dashboard" /> </Route>
+          <Redirect to="/dashboard" />
         </Switch>
       </Suspense>
     );

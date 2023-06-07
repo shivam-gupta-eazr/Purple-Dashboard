@@ -5,6 +5,10 @@ import axios from "axios";
 
 export const Login = () => {
   const [name, setName] = useState({});
+  const currentTime = new Date().getTime();
+  console.log(currentTime)
+  const expiryTime = currentTime + 10 * 1000;
+  console.log(expiryTime)
 
   const changeHanlder = (e) => {
     setName({ ...name, [e.target.name]: e.target.value });
@@ -13,6 +17,7 @@ export const Login = () => {
     axios
       .post("https://fakestoreapi.com/auth/login", name)
       .then((res) => localStorage.setItem("token", res.data.token));
+    localStorage.setItem("expiryTime", expiryTime);
   };
   console.log(name);
   return (
@@ -32,7 +37,6 @@ export const Login = () => {
                     type="email"
                     placeholder="Username"
                     name="username"
-                    // value="mor_2314"
                     onChange={changeHanlder}
                     size="lg"
                     className="h-auto"
@@ -43,7 +47,6 @@ export const Login = () => {
                     type="password"
                     placeholder="Password"
                     name="password"
-                    // value="  "
                     onChange={changeHanlder}
                     size="lg"
                     className="h-auto"
@@ -55,7 +58,10 @@ export const Login = () => {
                     style={{ border: "none", background: "transparent" }}
                     onClick={storeData}
                   >
-                    <Link className="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">
+                    <Link
+                      className="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
+                      to="/dashboard"
+                    >
                       SIGN IN
                     </Link>
                   </button>
