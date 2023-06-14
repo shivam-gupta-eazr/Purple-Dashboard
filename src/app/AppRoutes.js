@@ -72,7 +72,8 @@ class AppRoutes extends Component {
           <Route path="/user-pages/lockscreen" component={Lockscreen} />
           <Route path="/user-pages" />
 
-          <Route path="/error-pages/error-404" component={Error404} />
+          <Route path="/error-pages/error-404" component={Error404} /> 
+              
           <Route path="/error-pages/error-500" component={Error500} />
 
           <Route path="/general-pages/blank-page" component={BlankPage} />
